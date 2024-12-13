@@ -23,3 +23,5 @@ TestResults.xml
 /TheGalleryCafe/bin
 /TheGalleryCafe/obj/Debug
 /.vs/TheGalleryCafe
+/.vs
+/TheGalleryCafe/.vs
