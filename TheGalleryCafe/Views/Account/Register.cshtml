@@ -3,41 +3,61 @@
     ViewBag.Title = "Register";
 }
 
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
 
-    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
-    {
-        @Html.AntiForgeryToken()
-        <h4>Create a new account.</h4>
-        <hr />
-        @Html.ValidationSummary("", new { @class = "text-danger" })
-        <div class="row">
-            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+<div class="container-xxl bg-white p-0">
+
+    <div class="container-xxl position-relative p-0">
+
+        <div class="container-xxl py-2 bg-dark hero-header mb-2">
+            <div class="container text-center my-2 pt-5 pb-2">
+                <h1 class="display-3 text-white mt-4 animated slideInDown">@ViewBag.Title</h1>
             </div>
         </div>
-        <div class="row">
-            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+    </div>
+    <!-- Navbar & Hero End -->
+    <main aria-labelledby="title">
+    
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h4>Create a new account.</h4>
+            <hr />
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="row">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
             </div>
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            <div class="row mt-2">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="offset-md-2 col-md-10">
-                <input type="submit" value="Register" class="btn btn-outline-dark" />
+            <div class="row mt-2">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                </div>
             </div>
-        </div>
+            <div class="row mt-2">
+                <div class="offset-md-2 col-md-10">
+                    <input type="submit" value="Register" class="btn btn-primary" />
+            
+                    
+                    <button type="button" class="btn btn-link float-end" onclick="window.location='@Url.Action("Login", "Account")'">Do you have an account ?</button>
+                 
+
+                </div>
+
+
+
+            </div>
+        }
+    </main>
+</div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
     }
-</main>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

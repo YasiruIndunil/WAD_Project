@@ -1,0 +1,56 @@
+﻿@model IEnumerable<TheGalleryCafe.Models.Table>
+
+
+<style>
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        transition: transform 0.2s;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+    .badge {
+        font-size: 0.9em;
+        padding: 5px 10px;
+    }
+
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Available Tables</h2>
+    <div class="row">
+        @foreach (var table in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Table Number: <strong>@table.TableNumber</strong></h5>
+                        <p class="card-text">
+                            <strong>Capacity:</strong> @table.Capacity<br />
+                            <strong>Location:</strong> @table.Location<br />
+                            <strong>Status:</strong>
+                            @if (table.IsAvailable)
+                            {
+                                <span class="badge bg-success">Available</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Occupied</span>
+                            }
+                        </p>
+                        @if (table.Notes != null)
+                        {
+                            <p class="card-text">
+                                <strong>Notes:</strong> @table.Notes
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

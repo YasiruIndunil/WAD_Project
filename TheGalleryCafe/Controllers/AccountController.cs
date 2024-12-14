@@ -5,9 +5,11 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using TheGalleryCafe.Class;
 using TheGalleryCafe.Models;
 
 namespace TheGalleryCafe.Controllers
@@ -17,10 +19,13 @@ namespace TheGalleryCafe.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _context;
 
         public AccountController()
         {
+            _context = new ApplicationDbContext();
         }
+
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
@@ -73,12 +78,38 @@ namespace TheGalleryCafe.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            // Find the user by email
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return View(model);
+            }
+
+      
+
+            // Perform password sign-in
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
+                    // Redirect to return URL or home page if no return URL
+                    // Get the user's roles
+                    var userRoles = await UserManager.GetRolesAsync(user.Id);
+
+                    // Get all roles from AspNetRoles table (Use ToList() synchronously in EF 6)
+                    var allRoles = _context.Roles.ToList(); // No need for ToListAsync in EF 6
+                    var allRoleNames = allRoles.Select(role => role.Name).ToList(); // Extract role names
+
+                    // Check if the user has any role from the AspNetRoles table
+                    // (You can also specify the roles you want to allow, e.g., "Admin", "Manager")
+                    if (!userRoles.Any(role => allRoleNames.Contains(role)))
+                    {
+                        ModelState.AddModelError("", "You do not have the required permissions.");
+                        return View(model);
+                    }
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -90,6 +121,8 @@ namespace TheGalleryCafe.Controllers
                     return View(model);
             }
         }
+
+
 
         //
         // GET: /Account/VerifyCode
@@ -386,7 +419,8 @@ namespace TheGalleryCafe.Controllers
             return View(model);
         }
 
-        //
+   
+
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -396,7 +430,6 @@ namespace TheGalleryCafe.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()

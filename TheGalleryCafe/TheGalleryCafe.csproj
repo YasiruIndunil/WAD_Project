@@ -275,7 +275,22 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Class\ApplicationDbContext.cs" />
+    <Compile Include="Class\ApplicationRoleManager.cs" />
+    <Compile Include="Class\ApplicationUserManager.cs" />
     <Compile Include="Class\Menu.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Migrations\202412140853260_InitialIdentitySetup2.cs" />
+    <Compile Include="Migrations\202412140853260_InitialIdentitySetup2.Designer.cs">
+      <DependentUpon>202412140853260_InitialIdentitySetup2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412141042338_UpdateDatabaseSchema.cs" />
+    <Compile Include="Migrations\202412141042338_UpdateDatabaseSchema.Designer.cs">
+      <DependentUpon>202412141042338_UpdateDatabaseSchema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Promotion.cs" />
+    <Compile Include="Models\Table.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -295,7 +310,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IdentityModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -318,6 +333,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\css\all.min.css" />
+    <Content Include="Content\css\bootstrap-icons.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="favicon.ico" />
@@ -328,6 +345,7 @@
     <Content Include="img\about-3.jpg" />
     <Content Include="img\about-4.jpg" />
     <Content Include="img\bg-hero.jpg" />
+    <Content Include="img\bg_video.jpg" />
     <Content Include="img\hero.png" />
     <Content Include="img\menu-1.jpg" />
     <Content Include="img\menu-2.jpg" />
@@ -390,6 +408,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Video\booking.mp4" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -506,15 +525,21 @@
     <Content Include="scss\bootstrap\scss\_variables.scss" />
     <Content Include="Views\Menu\MainMenu.cshtml" />
     <Content Include="Views\Menu\Menu_Partial.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Service.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Booking\BookingPage.cshtml" />
+    <Content Include="Views\Booking\AvailableTablesList.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Booking\" />
     <Folder Include="Views\Category\" />
     <Folder Include="Views\Ordering\" />
     <Folder Include="Views\Promotions\" />
     <Folder Include="Views\Reservation\" />
     <Folder Include="Views\Testimonial\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -546,6 +571,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202412131141098_InitialIdentitySetup.resx">
       <DependentUpon>202412131141098_InitialIdentitySetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412140853260_InitialIdentitySetup2.resx">
+      <DependentUpon>202412140853260_InitialIdentitySetup2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412141042338_UpdateDatabaseSchema.resx">
+      <DependentUpon>202412141042338_UpdateDatabaseSchema.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
