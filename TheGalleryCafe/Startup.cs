@@ -40,11 +40,11 @@ namespace TheGalleryCafe
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Google authentication
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
-            {
-                ClientId = "your-client-id",
-                ClientSecret = "your-client-secret"
-            });
+            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
+            //{
+            //    ClientId = "your-client-id",
+            //    ClientSecret = "your-client-secret"
+            //});
 
             // Add other external providers like Facebook, Twitter, etc., if needed
             // app.UseFacebookAuthentication(...);

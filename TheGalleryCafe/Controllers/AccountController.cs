@@ -227,6 +227,15 @@ namespace TheGalleryCafe.Controllers
             return View();
         }
 
+
+        [Authorize]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+
+
         //
         // POST: /Account/ForgotPassword
         [HttpPost]

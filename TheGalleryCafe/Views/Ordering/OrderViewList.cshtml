@@ -1,0 +1,40 @@
+﻿<h2>Added Items</h2> 
+<table class="table table-primary table-bordered" border="1">
+    <thead>
+        <tr class="">
+            <th>ItemID</th>
+            <th>Image</th>
+            <th>DishName</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.OrderList)
+        {
+            <tr>
+                <td>@item.CartItemID</td>
+                <td> <img height="32" width="32" src="~/img/Menu/@item.ImageUrl" /> </td>
+                <td>@item.DishName</td>
+                <td class="text-center"><i onclick="ItemPlus(@item.MealItemID)" style="color:green" class="fa fa-plus float-start"></i style="color:red"> @item.Quantity <i onclick="ItemMinus(@item.MealItemID)" style="color:red" class=" float-end  fa fa-minus"></i></td>
+                <td>@item.Subtotal</td>
+                <td class="col-sm-1">
+                    <a class="btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Item"><i onclick="ItemRemove(@item.MealItemID)"  style="color:red" class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-center"><strong>Total:</strong></td>
+            <td class="text-center fw-bold">
+                @ViewBag.TotalQuantity
+            </td>
+            <td class=" fw-bold">
+                @ViewBag.GrandTotal
+            </td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>

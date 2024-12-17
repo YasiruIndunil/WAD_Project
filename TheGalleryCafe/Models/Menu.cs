@@ -7,13 +7,14 @@ namespace TheGalleryCafe.Models
 {
     public class Menu
     {
+        public int MenuID { get; set; }
+        public int MealItemID { get; set; }  // Foreign key for MealItems
+        public int MealTypeID { get; set; }  // Foreign key for MealTypes
+        public bool IsActive { get; set; }
 
-       public int Id { get; set; }
-       public string ItemName { get; set; }
-       public decimal Price { get; set; }
-       public string Description { get; set; }
-       public string imgPath { get; set; }
-
-
+        // Navigation properties (EF will automatically handle the relationships)
+        public MealItem MealItem { get; set; }
+        public TypesOfMeals MealType { get; set; }
     }
+
 }
