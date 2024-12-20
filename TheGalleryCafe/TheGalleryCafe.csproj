@@ -337,6 +337,7 @@
     <Compile Include="Class\clsConnectionString.cs" />
     <Compile Include="Class\ClsMealItem.cs" />
     <Compile Include="Class\ClsOrder.cs" />
+    <Compile Include="Class\ClsReservation.cs" />
     <Compile Include="Class\SqlHelper.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -359,6 +360,10 @@
     <Compile Include="Migrations\202412150711164_CuisineID.cs" />
     <Compile Include="Migrations\202412150711164_CuisineID.Designer.cs">
       <DependentUpon>202412150711164_CuisineID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202412191311013_CuisineIDd.cs" />
+    <Compile Include="Migrations\202412191311013_CuisineIDd.Designer.cs">
+      <DependentUpon>202412191311013_CuisineIDd.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\CartItems.cs" />
     <Compile Include="Models\Carts.cs" />
@@ -434,15 +439,76 @@
     <Content Include="img\menu-6.jpg" />
     <Content Include="img\menu-7.jpg" />
     <Content Include="img\menu-8.jpg" />
+    <Content Include="img\Menu\American.jpg" />
+    <Content Include="img\Menu\Avocado Toast.jpg" />
     <Content Include="img\Menu\AvocadoToast.jpg" />
+    <Content Include="img\Menu\BBQRibs.jpg" />
+    <Content Include="img\Menu\Biryani.jpg" />
+    <Content Include="img\Menu\Bouillabaisse.jpg" />
+    <Content Include="img\Menu\BuffaloWings.jpg" />
+    <Content Include="img\Menu\ButterChicken.png" />
     <Content Include="img\Menu\Cappuccino.jpg" />
+    <Content Include="img\Menu\CapreseSalad.jpg" />
+    <Content Include="img\Menu\Chinese.jpg" />
+    <Content Include="img\Menu\Churros.jpg" />
+    <Content Include="img\Menu\ClassicBurger.jpg" />
+    <Content Include="img\Menu\Crepes.jpg" />
+    <Content Include="img\Menu\Croissant.jpg" />
+    <Content Include="img\Menu\DimSum.jpg" />
+    <Content Include="img\Menu\Egg Benedict.jpg" />
     <Content Include="img\Menu\EggBenedict.jpg" />
+    <Content Include="img\Menu\Enchiladas.jpg" />
+    <Content Include="img\Menu\Falafel.jpg" />
+    <Content Include="img\Menu\FishAmbulThiyal.jpg" />
+    <Content Include="img\Menu\FocacciaBread.jpg" />
+    <Content Include="img\Menu\French.jpg" />
     <Content Include="img\Menu\FrenchFries.jpg" />
+    <Content Include="img\Menu\Fresh Orange Juice.jpg" />
     <Content Include="img\Menu\FreshOrangeJuice.jpg" />
+    <Content Include="img\Menu\Greek Salad.jpg" />
+    <Content Include="img\Menu\GreekSalad.jpg" />
+    <Content Include="img\Menu\GreenCurry.jpg" />
+    <Content Include="img\Menu\Grilled-Chicken-Salad.jpg" />
     <Content Include="img\Menu\GrilledChickenSalad.jpg" />
+    <Content Include="img\Menu\Guacamole.jpg" />
+    <Content Include="img\Menu\Hoppers.jpg" />
+    <Content Include="img\Menu\Hummus.jpg" />
+    <Content Include="img\Menu\Indian.jpg" />
+    <Content Include="img\Menu\Italian.jpg" />
+    <Content Include="img\Menu\Japanese.jpg" />
+    <Content Include="img\Menu\KottuRoti.JPG" />
+    <Content Include="img\Menu\KungPaoChicken.jpg" />
+    <Content Include="img\Menu\MacandCheese.jpg" />
+    <Content Include="img\Menu\MangoStickyRice.jpg" />
+    <Content Include="img\Menu\Margherita Pizza.jpg" />
+    <Content Include="img\Menu\Mediterranean.jpg" />
+    <Content Include="img\Menu\Mexican.jpg" />
+    <Content Include="img\Menu\MisoSoup.jpg" />
+    <Content Include="img\Menu\Moussaka.jpg" />
+    <Content Include="img\Menu\PadThai.jpg" />
     <Content Include="img\Menu\Pancakes.jpg" />
+    <Content Include="img\Menu\PaneerTikka.jpg" />
     <Content Include="img\Menu\PastaPrimavera.jpg" />
+    <Content Include="img\Menu\peomo4.jpg" />
+    <Content Include="img\Menu\Promo2.jpg" />
+    <Content Include="img\Menu\Promo4.jpg" />
+    <Content Include="img\Menu\Promo1.jpg" />
+    <Content Include="img\Menu\promo3.jpg" />
+    <Content Include="img\Menu\Ramen.jpg" />
+    <Content Include="img\Menu\Ratatouille.jpg" />
+    <Content Include="img\Menu\RiceandCurry.jpg" />
+    <Content Include="img\Menu\Samosa.jpg" />
+    <Content Include="img\Menu\SpaghettiCarbonara.jpg" />
+    <Content Include="img\Menu\SpringRolls.jpg" />
+    <Content Include="img\Menu\Sri Lankan.jpg" />
     <Content Include="img\Menu\SteakDinner.jpg" />
+    <Content Include="img\Menu\SushiRolls.jpg" />
+    <Content Include="img\Menu\SweetandSourChicken.jpg" />
+    <Content Include="img\Menu\TacosalPastor.jpeg" />
+    <Content Include="img\Menu\Tempura.jpg" />
+    <Content Include="img\Menu\Thai.jpg" />
+    <Content Include="img\Menu\Tiramisu.jpg" />
+    <Content Include="img\Menu\TomYumSoup.png" />
     <Content Include="img\team-1.jpg" />
     <Content Include="img\team-2.jpg" />
     <Content Include="img\team-3.jpg" />
@@ -624,6 +690,11 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Ordering\OrderView.cshtml" />
     <Content Include="Views\Ordering\OrderViewList.cshtml" />
+    <Content Include="Views\Menu\Promo_Partial.cshtml" />
+    <Content Include="Views\Menu\Cuisines_Partial.cshtml" />
+    <Content Include="Views\Ordering\AllOrderView.cshtml" />
+    <Content Include="Views\Ordering\AllOrderViewList.cshtml" />
+    <Content Include="Views\Home\AdminPortal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -675,6 +746,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202412150711164_CuisineID.resx">
       <DependentUpon>202412150711164_CuisineID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202412191311013_CuisineIDd.resx">
+      <DependentUpon>202412191311013_CuisineIDd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

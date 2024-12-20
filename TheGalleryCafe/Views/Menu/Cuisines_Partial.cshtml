@@ -1,0 +1,25 @@
+﻿
+@foreach (var item in ViewBag.CuisinesList)
+{
+
+        <div class="col-sm-6 col-lg-6 col-md-6">
+            <div class="d-flex align-items-center">
+                <img class="flex-shrink-0 img-fluid rounded" src="~/img/Menu/@item.ImageUrl" alt="" style="width: 80px; height:80px">
+
+                <div class="w-100 d-flex flex-column text-start ps-4">
+                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                        <span>@item.DishName - ( @item.CuisineName )</span>
+
+                        <span class="text-primary">@item.Price <i onclick="Order(@item.MealItemID)" class="ms-2 fa fa-shopping-cart text-dark" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to cart"></i></span>
+
+                    </h5>
+                    <small class="fst-italic">@item.Description</small>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    }
+

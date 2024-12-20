@@ -17,6 +17,7 @@ namespace TheGalleryCafe.Controllers
             public ActionResult MainMenu()
             {
             ViewBag.MealTypeList = _MealItem.GetMealTypeList();
+            ViewBag.CuisinesList = _MealItem.GetAllCuisines();
 
             return View();
             }
@@ -26,6 +27,24 @@ namespace TheGalleryCafe.Controllers
             ViewBag.MenuList = _MealItem.GetMenu(MealItemID);
 
             return PartialView("Menu_Partial");
+        }
+
+        public ActionResult Promo_Partial()
+        {
+            ViewBag.PromoList = _MealItem.GetPromo();
+
+            return PartialView("Promo_Partial");
+
+
+        } 
+        
+        public ActionResult Cuisines_Partial(string CItemID)
+        {
+            ViewBag.CuisinesList = _MealItem.GetCuisin(CItemID);
+
+            return PartialView("Cuisines_Partial");
+
+
         }
     }
 }

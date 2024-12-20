@@ -15,13 +15,18 @@
         </div>
     </div>
     <!-- Navbar & Hero End -->
-
-
     <!-- Menu Start -->
+
+    <div id="_PromoList" class="row col-12">
+
+    </div>
+
+
+
     <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
+                <h5 class="section-title ff-secondary text-center text-primary fw-normal">Popular Food Menu</h5>
                 <h1 class="mb-5">Most Popular Items</h1>
             </div>
             <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -51,12 +56,58 @@
 
                             </div>
 
-                            </div>
-                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
     </div>
+
+
+
+
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h5 class="section-title ff-secondary text-center text-primary fw-normal">Cuisines Menu</h5>
+                <h1 class="mb-5">Cuisines Food Items</h1>
+            </div>
+            <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+                <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+
+                    @foreach (var mealType in ViewBag.CuisinesList)
+                    {
+
+                        <li class="nav-item mt-1 asc">
+                            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 " id="@mealType.CuisineID" data-bs-toggle="pill" href="#tab-1" onclick="CuisinesList(@mealType.CuisineID)">
+
+                                <img class="flex-shrink-0 img-fluid rounded" src="~/img/Menu/@mealType.ImageUrl" alt="" style="width:40px; height:20px">
+                                <div class="ps-3">
+                                    <h6 class="mt-n1 mb-0">@mealType.CuisineName</h6>
+                                </div>
+                            </a>
+                        </li>
+
+                    }
+                </ul>
+                <div class="tab-content">
+
+                    <div class="tab-pane fade show p-0 active">
+                        <div class="row g-4 col-sm-12">
+
+                            <div id="_CuisinesList" class="row col-12">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Menu End -->
     <!-- Menu Start -->
     <!--<div class="container-xxl py-5">
@@ -107,71 +158,86 @@
 <script type="text/javascript">
 
     document.addEventListener("DOMContentLoaded", function () {
-        // Simulate a click on the element
-        const elementToClick = document.getElementById("1"); // Replace '1' with the actual ID of your element
+        // Automatically simulate a click on the first element (ID "1") if it exists
+        const elementToClick = document.getElementById("1");
         if (elementToClick) {
-            elementToClick.click(); // Simulate the click
-            elementToClick.classList.add("active"); // Add the 'active' class to the element
+            // Remove "active" class from all `.nav-item` and `.nav-item1` elements
+            document.querySelectorAll(".nav-item a ").forEach((element) => {
+                element.classList.remove("active");
+            });
+
+            // Add "active" class to the clicked element
+            elementToClick.classList.add("active");
+
+            document.querySelectorAll(".asc a ").forEach((element) => {
+                element.classList.remove("active");
+            });
+            const elementToClick1 = document.querySelector(".asc a");
+            elementToClick1.classList.add("active");
+            // Call the required functions with the element's ID
+            const id = elementToClick.getAttribute("id"); // Get the ID
+            if (id) {
+                CuisinesList(id); // Ensure this function is defined and working
+                MenuList(id); // Ensure this function is defined and working
+            }
         }
     });
 
 
-
-    // Remove "active" class from all other `.nav-item` elements
-    document.querySelectorAll(".nav-item a").forEach((element) => {
-        element.classList.remove("active");
+    // Load promotions on page load
+    $.get('@Url.Action("Promo_Partial", "Menu")', {}, function (response) {
+        $("#_PromoList").html(response);
     });
 
-    // Add "active" class to the clicked element
-/*    clickedElement.classList.add("active");*/
 
-    function MenuList(id) {
+// Function to load cuisines list
+function CuisinesList(id) {
+    $.get('@Url.Action("Cuisines_Partial", "Menu")', { CItemID: id }, function (response) {
+        $("#_CuisinesList").html(response);
+  
+    });
+}
 
-        $.get('@Url.Action("Menu_Partial", "Menu")', { MealItemID: id }, function (response) {
-            $("#_MenuList").html(response);
+// Function to load menu list
+function MenuList(id) {
+    $.get('@Url.Action("Menu_Partial", "Menu")', { MealItemID: id }, function (response) {
+        $("#_MenuList").html(response);
+    });
+}
 
-
-        });
-
-    }
-
-    function Order(MId) {
-
-        $.ajax({
-            async: true,
-            type: 'POST',
-            url: '@Url.Action("AddToCart", "Ordering")',
-            data: { MenuID: MId },
-            success: function (data) {
-
-                if (data && data.length > 0) {
-                    var itemQty = data.reduce((total, item) => total + item.Quantity, 0); // Calculate total quantity in the cart
-                    updateCartBadge(itemQty); // Update the cart badge with the total quantity
-                } else {
-                    console.error('No items in the cart.');
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error adding to cart:', error);
+// Function to handle adding an item to the cart
+function Order(MId) {
+    $.ajax({
+        async: true,
+        type: 'POST',
+        url: '@Url.Action("AddToCart", "Ordering")',
+        data: { MenuID: MId },
+        success: function (data) {
+            if (data && data.length > 0) {
+                const itemQty = data.reduce((total, item) => total + item.Quantity, 0);
+                updateCartBadge(itemQty);
+            } else {
+                console.error('No items in the cart.');
             }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error adding to cart:', error);
+        }
+    });
+}
 
-
-        });
-
-    }
-
-
-    // Example of dynamically updating the cart badge count
-    function updateCartBadge(count) {
-        const cartBadge = document.getElementById('cart-badge');
+// Function to update the cart badge count
+function updateCartBadge(count) {
+    const cartBadge = document.getElementById('cart-badge');
+    if (cartBadge) {
         if (count > 0) {
-            cartBadge.textContent = count; // Update the number
+            cartBadge.textContent = count;
             cartBadge.style.display = 'inline'; // Ensure it's visible
         } else {
             cartBadge.style.display = 'none'; // Hide if count is 0
         }
     }
-
+}
 
 
 </script>

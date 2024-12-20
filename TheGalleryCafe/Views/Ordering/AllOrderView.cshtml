@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "Cart Details";
+}
+
+
+
+<div class="container-xxl bg-white p-0">
+
+    <div class="container-xxl position-relative p-0">
+        <div class="container-xxl py-2 bg-dark hero-header mb-2">
+            <div class="container text-center my-2 pt-5 pb-2">
+                <h1 class="display-3 text-white mt-4 animated slideInDown">@ViewBag.Title</h1>
+            </div>
+        </div>
+    </div>
+    <div id="_OrderList">
+
+    </div>
+
+
+</div>
+
+<script>
+
+        $(document).ready(function () {
+
+        $.get('@Url.Action("AllOrderViewList", "Ordering")', { }, function (response) {
+            $("#_OrderList").html(response);
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const table = document.querySelector("#myTable");
+                const dataTable = new simpleDatatables.DataTable(table);
+            });
+        });
+
+        });
+
+
+
+    function CheckOut(id) {
+
+           $.ajax({
+          async: true,
+          type: 'POST',
+          url: '@Url.Action("Checkout", "Ordering")',
+          data: { ID: id},
+          success: function (data) {
+              CartBatch()
+           $.get('@Url.Action("OrderViewList", "Ordering")', { }, function (response) {
+           $("#_OrderList").html(response);
+
+           });
+          },
+          error: function (xhr, status, error) {
+              console.error('Error adding to cart:', error);
+          }
+
+           });
+    }
+
+    function ItemPlus(id) {
+
+
+           $.ajax({
+           async: true,
+           type: 'POST',
+           url: '@Url.Action("ChangeItemsQty", "Ordering")',
+           data: { ID: id , Type : "Plus" },
+           success: function (data) {
+               CartBatch()
+            $.get('@Url.Action("OrderViewList", "Ordering")', { }, function (response) {
+            $("#_OrderList").html(response);
+
+            });
+           },
+           error: function (xhr, status, error) {
+               console.error('Error adding to cart:', error);
+           }
+
+            });
+
+             }
+
+    function ItemRemove(id) {
+         $.ajax({
+         async: true,
+         type: 'POST',
+         url: '@Url.Action("ChangeItemsQty", "Ordering")',
+         data: { ID: id , Type : "Remove" },
+         success: function (data) {
+             CartBatch()
+          $.get('@Url.Action("OrderViewList", "Ordering")', { }, function (response) {
+          $("#_OrderList").html(response);
+
+          });
+         },
+         error: function (xhr, status, error) {
+             console.error('Error adding to cart:', error);
+         }
+
+          });
+
+    }
+    function ItemMinus(id) {
+
+
+           $.ajax({
+           async: true,
+           type: 'POST',
+           url: '@Url.Action("ChangeItemsQty", "Ordering")',
+           data: { ID: id , Type : "Minus" },
+           success: function (data) {
+               CartBatch()
+            $.get('@Url.Action("OrderViewList", "Ordering")', { }, function (response) {
+            $("#_OrderList").html(response);
+
+            });
+           },
+           error: function (xhr, status, error) {
+               console.error('Error adding to cart:', error);
+           }
+
+            });
+
+      }
+
+
+    function CartBatch() {
+
+        $.ajax({
+            async: true,
+            type: 'POST',
+            url: '@Url.Action("AddedCartItems", "Ordering")',
+            success: function (data) {
+
+                if (data && data.length > 0) {
+                    var itemQty = data.reduce((total, item) => total + item.Quantity, 0); // Calculate total quantity in the cart
+                    updateCartBadge(itemQty); // Update the cart badge with the total quantity
+                } else {
+                    console.error('No items in the cart.');
+
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error adding to cart:', error);
+            }
+
+
+        });
+    }
+                // Example of dynamically updating the cart badge count
+    function updateCartBadge(count) {
+        const cartBadge = document.getElementById('cart-badge');
+        if (count > 0) {
+            cartBadge.textContent = count; // Update the number
+            cartBadge.style.display = 'inline'; // Ensure it's visible
+        } else {
+            cartBadge.style.display = 'none'; // Hide if count is 0
+        }
+    }
+
+
+</script>

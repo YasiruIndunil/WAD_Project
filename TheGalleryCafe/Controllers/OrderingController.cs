@@ -15,12 +15,14 @@ namespace TheGalleryCafe.Controllers
 
 
         // GET: Ordering
+        [Authorize]
         public ActionResult OrderView()
         {
             ViewBag.OrderList = _ClsOrder.AddedCartItemList();
             return View();
         }
 
+        [Authorize]
         public ActionResult OrderViewList()
         {
             ViewBag.OrderList = _ClsOrder.AddedCartItemList();
@@ -30,6 +32,7 @@ namespace TheGalleryCafe.Controllers
             {
                 ViewBag.GrandTotal = itemData.GrandTotal; // Total price
                 ViewBag.TotalQuantity = itemData.TotalQuantity; // Total quantity
+                ViewBag.CartID = itemData.CartID; // Total quantity
             }
 
             return PartialView("OrderViewList");
@@ -43,11 +46,19 @@ namespace TheGalleryCafe.Controllers
             return Json(cartData); // Return the updated cart data as JSON
 
         }
-        
-        
-        
-        
-        
+
+
+        [Authorize]
+        [HttpPost]
+        public JsonResult Checkout(int ID)
+        {
+            var cartData = _ClsOrder.CheckOutItems(ID); // Fetch the cart data after adding the item
+            return Json(cartData); // Return the updated cart data as JSON
+
+        }
+
+
+
         [Authorize]
         [HttpPost]
         public JsonResult AddToCart(string MenuID)
@@ -89,6 +100,21 @@ namespace TheGalleryCafe.Controllers
         }
 
 
+        [Authorize]
+        public ActionResult AllOrderView()
+        {
+            ViewBag.OrderList = _ClsOrder.AddedCartItemList();
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult AllOrderViewList()
+        {
+            ViewBag.OrderList = _ClsOrder.AddedAllList();
+
+       
+            return PartialView("AllOrderViewList");
+        }
 
 
         //[HttpPost]

@@ -1,4 +1,5 @@
-﻿<style>
+﻿@model TheGalleryCafe.Models.Reservation
+<style>
 
     .video {
         background: url('~/Images/video-bg.jpg') no-repeat center center/cover;
@@ -231,43 +232,57 @@
             <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
                 <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation</h5>
                 <h1 class="text-white mb-4">Book A Table Online</h1>
-                <form>
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                @using (Html.BeginForm("Index", "Reservations", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="name" placeholder="Your Name">
-                                <label for="name">Your Name</label>
+                                @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", placeholder = "Your Name" })
+                                @Html.LabelFor(m => m.CustomerName)
+                                @Html.ValidationMessageFor(m => m.CustomerName, "", new { @class = "error badge bg-danger" })
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="email" class="form-control" id="email" placeholder="Your Email">
-                                <label for="email">Your Email</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating date" id="date3" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" id="datetime" placeholder="Date & Time" data-target="#date3" data-toggle="datetimepicker" />
-                                <label for="datetime">Date & Time</label>
+                                @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form-control", placeholder = "Your Mobile Number" })
+                                @Html.LabelFor(m => m.ContactNumber)
+                                @Html.ValidationMessageFor(m => m.ContactNumber, "", new { @class = "error badge bg-danger" })
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control datetimepicker-input" id="datetime" placeholder="Date & Time" data-target="#date3" data-toggle="datetimepicker" />
-                                <label for="select1">No Of People</label>
+                                @Html.TextBoxFor(m => m.ReservationDate, new { @class = "form-control", placeholder = "Date & Time", @type = "datetime-local" })
+                                @Html.LabelFor(m => m.ReservationDate)
+                                @Html.ValidationMessageFor(m => m.ReservationDate, "", new { @class = "error badge bg-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                @Html.TextBoxFor(m => m.NumberOfGuests, new { @class = "form-control", placeholder = "No Of People" })
+                                @Html.LabelFor(m => m.NumberOfGuests)
+                                @Html.ValidationMessageFor(m => m.NumberOfGuests, "", new { @class = "error badge bg-danger" })
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Special Request" id="message" style="height: 100px"></textarea>
-                                <label for="message">Special Request</label>
+                                @Html.TextAreaFor(m => m.SpecialRequests, new { @class = "form-control", placeholder = "Special Request", style = "height: 100px" })
+                                @Html.LabelFor(m => m.SpecialRequests)
+                                @Html.ValidationMessageFor(m => m.SpecialRequests, "", new { @class = "error badge bg-danger" })
                             </div>
                         </div>
                         <div class="col-12">
                             <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
                         </div>
                     </div>
-                </form>
+                }
             </div>
         </div>
     </div>
@@ -456,7 +471,7 @@
             $("#spinner").hide();
         }).fail(function () {
             // Optional: Handle errors and hide the spinner even on failure
-            alert("Failed to load the data.");
+          
             $("#spinner").hide();
         });
 

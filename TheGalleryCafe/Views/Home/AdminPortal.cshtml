@@ -1,0 +1,411 @@
+﻿@model TheGalleryCafe.Models.ApplicationUser
+@{
+    ViewBag.Title = "AdminPortal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <div class="container">
+
+
+        <div class="modal fade" id="exampleModalLive" tabindex="-1" aria-labelledby="exampleModalLiveLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold" id="exampleModalLiveLabel">Message Box</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body col-sm-12">
+                        @*<input class="border-0 col-sm-12 text-sm-center fw-bold" name="testmsg" type="text" readonly="readonly"/>*@
+                        <span class="col-sm-12 text-sm-center float-end fw-bold" id="testmsg"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="donebtn" class="btn btn-secondary btn-outline-light" data-bs-dismiss="modal">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4 col-sm-12 bg-light">
+            <div class="card-body bg-light">
+
+
+                <div class="form-group">
+                    <ol class="breadcrumb mb-4 bg-light">
+                        <li class="breadcrumb-item"><a href="@Url.Action("UserRegisterList","User")"><i class=" fa fa-arrow-circle-left"></i> Registered User List</a></li>
+                        <li class="breadcrumb-item active">User Registration Form</li>
+                    </ol>
+                    <div class="row">
+                        @Html.HiddenFor(m => m.userID_Pk)
+                        <label for="epfNumber" class="col-sm-2 col-form-label fw-bold mt-1">EPF Number</label>
+
+                        <div class="form-group  col-sm-4">
+                            @Html.TextBoxFor(m => m.epfNumber, new { @class = "form-control col-form-label mt-1 col-sm", @onchange = "check(this.value, this.name)" })
+                            @Html.ValidationMessageFor(x => x.epfNumber, "", new { @class = "error badge bg-danger" })
+                        </div>
+
+
+                        <label for="firstName" class="col-sm-2 col-form-label fw-bold mt-1">First Name</label>
+
+                        <div class="form-group col-sm-4">
+                            @Html.TextBoxFor(m => m.firstName, new { @class = "form-control col-form-label mt-1" })
+                            @Html.ValidationMessageFor(x => x.firstName, "", new { @class = "error badge bg-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+
+                    <label for="lastName" class="col-sm-2 col-form-label fw-bold mt-1">Last Name</label>
+                    <div class="form-group col-sm-4">
+                        @Html.TextBoxFor(m => m.lastName, new { @class = "form-control col-form-label mt-1" })
+                        @Html.ValidationMessageFor(x => x.lastName, "", new { @class = "error badge bg-danger" })
+                    </div>
+
+
+                    <label for="lastName" class="col-sm-2 col-form-label fw-bold mt-1">Mobile Number</label>
+                    <div class="form-group col-sm-4">
+                        @Html.TextBoxFor(m => m.mobileNumber, new { placeholder = "+94770000000", @class = "form-control col-form-label mt-1" })
+                        @Html.ValidationMessageFor(x => x.mobileNumber, "", new { @class = "error badge bg-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+
+                    <label for="email" class="col-sm-2 col-form-label fw-bold mt-1">Email</label>
+                    <div class="form-group col-sm-4">
+                        @Html.TextBoxFor(m => m.email, new { @class = "form-control col-form-label mt-1", @onchange = "check(this.value, this.name)" })
+                        @Html.ValidationMessageFor(x => x.email, "", new { @class = "error badge bg-danger" })
+                    </div>
+
+
+                    <label for="userName" class="col-sm-2 col-form-label fw-bold mt-1">User Name</label>
+                    <div class="form-group col-sm-4">
+                        @Html.TextBoxFor(m => m.userName, new { @class = "form-control col-form-label mt-1", @onchange = "username(this.value)" })
+                        @Html.ValidationMessageFor(x => x.userName, "", new { @class = "error badge bg-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+
+                    <label for="password" class="col-sm-2 col-form-label fw-bold mt-1">Password</label>
+                    <div class="form-group col-sm-4">
+                        @Html.PasswordFor(m => m.password, new { @class = "form-control pa col-form-label mt-1" })
+                        @*  @Html.ValidationMessageFor(x => x.password, "", new { @class = "error badge bg-danger" })*@
+                    </div>
+
+                    <label for="roleID_Fk" class="col-sm-2 col-form-label fw-bold mt-1">Role</label>
+                    <div class="form-group mt-1 col-sm-4">
+                        @*@Html.DropDownListFor(m => m.Roles, Model.Roles, "Please select")*@
+                        @Html.DropDownList("roleID_Fk", new SelectList(ViewBag.role, "roleID_Fk", "role"), "Select Role", new { @class = "form-control " })
+                        @Html.ValidationMessageFor(x => x.roleID_Fk, "", new { @class = "error badge bg-danger" })
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-group row">
+
+                    <label for="brandID_Fk" class="col-sm-2 col-form-label fw-bold mt-1">Brands</label>
+
+                    <div id="brandlistD" class="form-group mt-1 col-sm-4">
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="col-6 mt-4 mt-xxl-0 w-auto h-auto">
+
+                    <div class="alert px-4 py-3 mb-0 d-none"
+                         role="alert"
+                         data-mdb-color="warning"
+                         id="password-alert">
+                        <ul class="list-unstyled mb-0">
+                            <li class="requirements leng">
+                                <i class="fas fa-check text-success me-2"></i>
+                                @* <i class="fas fa-times text-danger me-3"></i>*@
+                                Your password must have at least 8 chars
+                            </li>
+                            <li class="requirements big-letter">
+                                <i class="fas fa-check text-success me-2"></i>
+                                @*<i class="fas fa-times text-danger me-3"></i>*@
+                                Your password must have at least 1 big letter.
+                            </li>
+                            <li class="requirements num">
+                                <i class="fas fa-check text-success me-2"></i>
+                                @*<i class="fas fa-times text-danger me-3"></i>*@
+                                Your password must have at least 1 number.
+                            </li>
+                            <li class="requirements special-char">
+                                <i class="fas fa-check text-success me-2"></i>
+                                @*<i class="fas fa-times text-danger me-3"></i>*@
+                                Your password must have at least 1 special char.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group col">
+                    <br>
+                    <button id="btnsub1" class="btn btn-outline-light btn-success">Submit</button>
+                    <button type="reset" class="btn btn-outline-light btn-danger ">Reset</button>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+}
+<script>
+    $(document).ready(function () {
+    $('#brandlistD').load('@Url.Action("brandPatial", "User")');
+    });
+
+    //$("#btnsub").click(function () {
+    //    if (!$('#brandlist').val()) {
+    //        alert("nfkjae");
+    //    }
+
+    //});
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        window.onload = function () {
+
+
+            //$("#userName").attr("disabled", "disabled");
+            $("#password").attr("disabled", "disabled");
+
+
+        };
+
+
+        $("#brandlist").multiselect({
+
+            includeSelectAllOption: true
+
+        });
+
+
+        $("#btnsub1").click(function () {
+            /*alert("asfsad");*/
+
+           if (!$('#epfNumber').val() || !$('#firstName').val() || !$('#lastName').val() || !$('#mobileNumber').val() || /*!$('#email').val() ||*/ !$('#roleID_Fk').val()) {
+
+
+             //   alert("Empty");
+            } else {
+
+                saveSelected();
+
+
+            }
+
+        });
+
+    });
+
+        function username(val) {
+
+
+
+            if (val == '') {
+                //   $("#userName").attr("disabled", "disabled");
+                $("#password").attr("disabled", "disabled");
+            } else {
+
+                $.ajax({
+                    async: true,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    url: '@Url.Action("checkDuplicate", "User")',
+                    data: { userName: val },
+                    success: function (data) {
+
+                        if (data.userID_Pk != 0) {
+                            $("#password").attr("disabled", "disabled");
+                            document.querySelector('#btnsub1').disabled = true;
+
+                            $("#testmsg").text(" This Username Is Already Registered");
+                            $("#exampleModalLive").modal('show');
+
+                            var txtBox = document.getElementById("userName");
+                            if (txtBox != null) {
+                                txtBox.focus();
+
+                            }
+                        } else {
+
+                            if (data.userID_Pk == 0) {
+                                document.querySelector('#btnsub1').disabled = false;
+                                document.querySelector('#password').disabled = false;
+                                var txtBox = document.getElementById("password");
+                                if (txtBox != null) {
+                                    txtBox.focus();
+
+                                }
+                            }
+                        }
+                    },
+                    error: function () {
+                        alert('Issue of selection');
+                    }
+                });
+
+            }
+        }
+
+    function saveSelected() {
+
+
+
+        var brandlist = "";
+        var listOfBrand = [];
+        var epfNumber = $("#epfNumber").val();
+        var firstName = $("#firstName").val();
+        var lastName = $("#lastName").val();
+        var mobileNumber = $("#mobileNumber").val();
+        var email = $("#email").val();
+        var userName = $("#userName").val();
+        var password = $("#password").val();
+        var roleID_Fk = $("#roleID_Fk").val();
+
+
+
+            $.each($("#brandlist option:selected"),
+                function (text, data) {
+                    //brandlist += $(this).val() + " " + $(this).text() + "\n";
+                    listOfBrand.push($(this).val());
+
+
+
+                });
+            /* alert(brandlist);*/
+
+            $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                contentType: 'application/json; charset=utf - 8',
+                url:'@Url.Action("RegisterSave", "User")',
+                data: JSON.stringify({ listOfBrand: listOfBrand, epfNumber: epfNumber, firstName: firstName, lastName: lastName, mobileNumber: mobileNumber, email: email, userName: userName, password: password, roleID_Fk: roleID_Fk  }),
+                success: function (data) {
+
+                     window.location.href =  '@Url.Action("UserRegisterList", "User")'
+
+                },
+                error: function () {
+                    alert('Issue of selection');
+                }
+            });
+
+
+        }
+
+
+    function check(Val, name) {
+
+
+
+        if (name == 'epfNumber') {
+
+             $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                url:'@Url.Action("checkDuplicate", "User")',
+                 data: { epfNumber: Val },
+                success: function (data) {
+
+                    if (data.userID_Pk != 0) {
+                        document.querySelector('#btnsub1').disabled = true;
+                        $("#testmsg").text(" This EPF Number Is Already Registered");
+                        $("#exampleModalLive").modal('show');
+
+
+                        var txtBox = document.getElementById("epfNumber");
+                        if (txtBox != null) {
+                            txtBox.focus();
+
+                        }
+                    } else {
+                        if (data.userID_Pk == 0) {
+                            document.querySelector('#btnsub1').disabled = false;
+                        }
+                    }
+                },
+                error: function () {
+                    alert('Issue of selection');
+                }
+            });
+
+        }
+
+
+
+             if (name == 'email') {
+
+               $.ajax({
+                async: true,
+                type: 'POST',
+                dataType: 'JSON',
+                url:'@Url.Action("checkDuplicate", "User")',
+                   data: { email: Val },
+                success: function (data) {
+
+                    if (data.userID_Pk != 0) {
+
+                        $("#testmsg").text(" This Email Is Already Registered");
+                        $("#exampleModalLive").modal('show');
+                        document.querySelector('#btnsub1').disabled = true;
+
+                        var txtBox = document.getElementById("email");
+                        if (txtBox != null) {
+                            txtBox.focus();
+
+                        }
+                    } else {
+                        if (data.userID_Pk == 0) {
+                            document.querySelector('#btnsub1').disabled = false;
+                        }
+                    }
+                },
+                error: function () {
+                    alert('Issue of selection');
+                }
+            });
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+</script>
+
+

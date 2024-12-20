@@ -17,7 +17,7 @@
 
     </div>
 
-
+   
 </div>
 
 <script>
@@ -26,11 +26,32 @@
 
         $.get('@Url.Action("OrderViewList", "Ordering")', { }, function (response) {
             $("#_OrderList").html(response);
-
-
-        });
         });
 
+        });
+
+
+
+    function CheckOut(id) {
+
+           $.ajax({
+          async: true,
+          type: 'POST',
+          url: '@Url.Action("Checkout", "Ordering")',
+          data: { ID: id},
+          success: function (data) {
+              CartBatch()
+           $.get('@Url.Action("OrderViewList", "Ordering")', { }, function (response) {
+           $("#_OrderList").html(response);
+
+           });
+          },
+          error: function (xhr, status, error) {
+              console.error('Error adding to cart:', error);
+          }
+
+           });
+    }
 
     function ItemPlus(id) {
 

@@ -19,12 +19,12 @@ namespace TheGalleryCafe.Controllers
             return View();
         }
 
-        public ActionResult AvailableTablesList()
-        {
-            var availableTables = db.Tables.Where(t => t.IsAvailable).ToList();
-            return PartialView("AvailableTablesList", availableTables);
+        //public ActionResult AvailableTablesList()
+        //{
+        //    //var availableTables = db.Tables.Where(t => t.IsAvailable).ToList();
+        //    return PartialView("AvailableTablesList", availableTables);
    
-        }
+        //}
 
 
 

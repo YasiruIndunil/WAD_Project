@@ -8,8 +8,9 @@ namespace TheGalleryCafe.Models
     public class Cuisines
     {
 
-        public int CategoryID { get; set; } 
-        public string CategoryName { get; set; } 
+        public int CuisineID { get; set; } 
+        public string CuisineName { get; set; } 
+        public string ImageUrl { get; set; } 
 
     }
 }

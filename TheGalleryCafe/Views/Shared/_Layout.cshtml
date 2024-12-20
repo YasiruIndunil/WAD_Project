@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -37,7 +38,7 @@
 
     <!-- Template Stylesheet -->
     <link href="~/Content/css/style.css" rel="stylesheet">
- 
+
     <style>
         #cart-badge {
             font-size: 0.8rem; /* Adjust badge font size */
@@ -80,7 +81,9 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"> Pages</a>
                             <div class="dropdown-menu m-0">
-                                <a href="@Url.Action("BookingPage", "Booking")" class="dropdown-item"> Booking</a>
+
+                                <a href="@Url.Action("AllOrderView", "Ordering")" class="dropdown-item">Resavation Details</a>
+                                <a href="@Url.Action("AdminPortal", "Home")" class="dropdown-item">Admin Portal</a>
                                 <a href="team.html" class="dropdown-item"> Our Team</a>
                                 <a href="testimonial.html" class="dropdown-item"> Testimonial</a>
                             </div>
@@ -90,6 +93,22 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"> Profile</a>
                             <div class="dropdown-menu m-0">
+                                @if (Request.IsAuthenticated)
+                                {
+                                    // Get the logged-in user's username
+                                    var username = User.Identity.Name;
+                                    <div class="row">
+                                        <div class="text-center">
+                                            <i class="fa fa-user fa-2x"></i>
+                                        </div>
+                                        <div class="text-center">
+                                            <span class="d-none d-md-block ps-2">@Html.Raw(username)</span>
+                                        </div>
+                                        <hr class="text-primary" />
+                                    </div>
+
+                                }
+
                                 <a href="booking.html" class="dropdown-item"> Details</a>
                                 <a href="@Url.Action("ChangePassword", "Account")" class="dropdown-item">Change Password</a>
                                 <form action="@Url.Action("LogOff", "Account")" method="post">
@@ -105,7 +124,7 @@
                         <i class="fa fa-shopping-cart fa-2x text-primary" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Your Orders" > </i >
                         </div >*@
                     <div class="position-relative ps-2" style="display: inline-block;" onclick="ToOrderView()">
-                        <i  class="fa fa-shopping-cart fa-2x text-primary" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Your Orders"></i>
+                        <i class="fa fa-shopping-cart fa-2x text-primary" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Your Orders"></i>
                         <span class="badge bg-danger text-white position-absolute top-0 start-100 translate-middle" id="cart-badge"></span>
                     </div>
 
@@ -196,6 +215,13 @@
     <script src="~/lib/tempusdominus/js/moment.min.js"></script>
     <script src="~/lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="~/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" defer></script>
+    <script src="~/Scripts/jquery.validate-vsdoc.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <!-- Template Javascript -->
     <script src="~/Scripts/js/main.js"></script>
 

@@ -21,6 +21,12 @@ namespace TheGalleryCafe.Controllers
 
             return View();
         }
+             public ActionResult AdminPortal()
+             {
+  
+
+                return View();
+            }
 
         public ActionResult Menu_Partial(string MealItemID)
         {

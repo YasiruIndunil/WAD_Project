@@ -18,7 +18,7 @@
                 <td> <img height="32" width="32" src="~/img/Menu/@item.ImageUrl" /> </td>
                 <td>@item.DishName</td>
                 <td class="text-center"><i onclick="ItemPlus(@item.MealItemID)" style="color:green" class="fa fa-plus float-start"></i style="color:red"> @item.Quantity <i onclick="ItemMinus(@item.MealItemID)" style="color:red" class=" float-end  fa fa-minus"></i></td>
-                <td>@item.Subtotal</td>
+                <td>@item.Subtotal LKR</td>
                 <td class="col-sm-1">
                     <a class="btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Item"><i onclick="ItemRemove(@item.MealItemID)"  style="color:red" class="fa fa-trash"></i></a>
                 </td>
@@ -32,9 +32,11 @@
                 @ViewBag.TotalQuantity
             </td>
             <td class=" fw-bold">
-                @ViewBag.GrandTotal
+                @ViewBag.GrandTotal LKR
             </td>
-            <td></td>
+            <td>
+                <a class="btn btn-primary btn-sm h6" data-bs-toggle="tooltip" data-bs-placement="top" title="Check Out" onclick="CheckOut(@ViewBag.CartID)">Checkout</a>
+            </td>
         </tr>
     </tfoot>
 </table>

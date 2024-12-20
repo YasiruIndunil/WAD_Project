@@ -44,6 +44,26 @@ namespace TheGalleryCafe.Class
             }
         }
 
+
+        public static int ExecuteNonQuery(string connectionString, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(commandText, connection))
+                {
+                    command.CommandType = commandType;
+                    if (commandParameters != null)
+                    {
+                        command.Parameters.AddRange(commandParameters);
+                    }
+
+                    connection.Open();
+                    return command.ExecuteNonQuery();
+                }
+            }
+        }
+
+
     }
 
 }

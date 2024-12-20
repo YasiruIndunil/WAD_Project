@@ -18,7 +18,10 @@ namespace TheGalleryCafe.Models
         public string ImageUrl { get; set; }
         public string DishName { get; set; }
 
+        public string Email { get; set; }
         public decimal GrandTotal { get; set; }
         public int TotalQuantity { get; set; }
+        public bool IsCheckedOut { get; set; }
+        public string CreateDate { get; set; }
     }
 }
